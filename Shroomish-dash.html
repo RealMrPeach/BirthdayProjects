@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <title>SHROOMISH DASH</title>
+        <style type='text/css'>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                font-size: 14;
+            }
+    
+            body {
+                width: 100vw;
+                height: 100vh;
+    
+                display: flex;
+                flex-direction: column;
+            }
+    
+            canvas#draw {
+                width: 100vw;
+                
+                flex-basis: 95%;
+            }
+    
+            div#header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #45246B;
+    
+                flex-basis: 5%;
+            }
+    
+            div#header>div {
+                display: flex;
+                padding: .5em;
+                font-family: 'Press Start 2P', cursive;
+                color: rgb(255, 255, 255);
+            }
+    
+            div#highscore {
+    
+                font-size: 1.25rem;
+            }
+    
+            div#score {
+                font-size: 1.25rem;
+            }
+    
+            div#title {
+                font-size: 2.1rem;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div style="display:none;">
+            <img id= "rock" src = "../HappyBirthday/rock.png" width="100" height="100">
+            <img id= "pidgey" src = "../HappyBirthday/pidgy.png" width="100" height="100">
+            <img id= "shroomish" src = "../HappyBirthday/Shroomish.png" width="125" height="125">
+        </div>
+ 
+        <div id="header">
+            <div id="score">
+                Score: 0
+            </div>
+            <div id="title">
+                SHROOMISH DASH
+            </div>
+            <div id="highscore">
+                Highscore: 0
+            </div>
+        </div>
+
+
+        <canvas id = "draw">
+        </canvas>
+
+
+        <script type = "text/javascript">
+
+        let canvas = document.getElementById("draw")
+        
+        let gameover = true
+
+        if(localStorage.getItem("highscore") == null){
+
+            localStorage.setItem("highscore", 0)
+
+        } //Highscore
+
+        let highscore = localStorage.getItem("highscore")
+
+        let Highscore = document.getElementById("highscore")
+
+        const GRAVITY = 0.6
+        
+        let initialSpawnTimer = 200
+        let spawnTimer = initialSpawnTimer
+
+        let gameSpeed = 3
+
+        let background = new Image()
+        background.src = "../HappyBirthday/background.jpg"
+        
+        let rock = document.getElementById("rock")
+
+        let pidgey = document.getElementById("pidgey")
+
+        let shroomish = document.getElementById("shroomish")
+
+        let Score = document.getElementById("score")
+
+        let score = 0
+
+        let player = {
+            height: 125,
+            width: 125,
+            x: 0,
+            y: 0,
+            vely: 0,
+        }
+
+        class Obstacle {
+            constructor(x, y, width, height, type){
+                this.height = height
+                this.width = width
+                this.speed = -gameSpeed
+                this.x = x
+                this.y = y
+
+                this.type = type;
+            }
+
+            draw() {
+                let pen = canvas.getContext('2d')
+                if(this.type == 1) {
+                    pen.drawImage(pidgey, this.x, this.y - 150, this.width, this.height)
+                }
+                else {
+                    pen.drawImage(rock, this.x, this.y, this.width, this.height)
+                }
+            }
+
+            move() {
+                this.x -= gameSpeed;
+            }
+
+        }
+
+        let obstacles = []
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        function reset(event){
+            if(gameover == true){
+                obstacles = []
+                score = 0
+                spawnTimer = initialSpawnTimer
+                gameSpeed = 3
+                title.innerHTML = "SHROOMISH DASH"
+                window.localStorage.setItem('highscore', highscore)
+                Highscore.innerHTML = "Highscore: " + highscore
+                player.y = canvas.height - 175
+                player.x = 100
+                gameover = false
+                requestAnimationFrame(nextFrame)
+            }
+        }
+
+        function init(){
+
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+
+            document.addEventListener("keydown", keyDown)
+            title.addEventListener('click', reset)
+            reset();
+        }
+
+        function DoesCollide(rect1, rect2) {
+            if (rect1.x > rect2.x + rect2.width) {
+                return false
+            }
+            if (rect1.x + rect1.width < rect2.x) {
+                return false
+            }
+            if (rect1.y + rect1.height < rect2.y) {
+                return false
+            }
+            if (rect1.y > rect2.y + rect2.height) {
+                return false
+            }
+            return true
+        }
+        
+        function SpawnObstacle () {
+            let obType = getRandomInt(4);
+        
+            let obstacle = new Obstacle(canvas.width + 10, canvas.height - 140, 100, 100, obType);
+
+            if(obType == 1){
+                obstacle.y -= 150
+            }
+            
+            obstacles.push(obstacle);
+        }           
+
+        function keyDown(event){
+            if(event.keyCode == 32){
+                if (player.y == canvas.height - 175) {
+                    player.vely += -23
+                }
+            }
+        }
+
+
+        function nextFrame(time) {
+            let pen = canvas.getContext('2d')
+            pen.clearRect(0, 0, canvas.width, canvas.height);
+            pen.drawImage(background, 0, -(1080 - canvas.height))
+            gameSpeed += 0.003
+
+            //move up and down
+            player.y += player.vely
+            player.vely += GRAVITY
+
+            if (player.y > canvas.height - 175) {
+                player.vely = 0
+                player.y = canvas.height - 175
+            }
+
+            spawnTimer--;
+
+            if(spawnTimer <= 0){
+                SpawnObstacle();
+                spawnTimer = initialSpawnTimer - (gameSpeed * 8);
+
+                if(spawnTimer < 60){
+                    spawnTimer = 60
+                }
+            }
+
+            for (let i = 0; i < obstacles.length; i++){
+                let o = obstacles[i]
+
+                o.move();
+                o.draw();
+
+                if(o.x + o.width < 0){
+                    obstacles.splice(i, 1)
+                }
+
+                if(DoesCollide(player, o)){
+                    gameover = true
+                    i = obstacles.length
+                    title.innerHTML = "You Lose! Click to restart."
+                }
+            }
+
+            
+            pen.drawImage(shroomish, player.x, player.y, player.width, player.height)
+            pen.fill()
+
+            score++;
+
+            Score.innerHTML = "Score: " + score
+            
+            if (gameover == true){
+                if (score > highscore) { 
+                    localStorage.setItem("highscore", score)
+                    highscore = score;
+                    Highscore.innerHTML = "Highscore:" + score;
+                }
+            }
+            if(gameover == false) {
+                requestAnimationFrame(nextFrame)
+            }
+        }
+
+        window.onload = init
+        
+        </script>
+    </body>
+
+</html>
