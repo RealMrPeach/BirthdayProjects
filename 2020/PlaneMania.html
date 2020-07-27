@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link href="https://fonts.googleapis.com/css2?family=Sora&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
+        <style>
+            
+            * {
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+                -webkit-user-select: none;
+            }
+
+            html, body {
+                width: 100%;
+                height: 100%;
+            }
+
+            #menuContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                background-image: url(https://i.imgur.com/zFuucsa.png);
+            }
+
+            #title {
+                font-size: 5em;
+                font-family: 'Sora', sans-serif;
+                margin-bottom: 5%;
+                color: white;
+                text-shadow: black 1px 0 10px;
+                
+            }
+
+            #startBtn {
+                width: 15%;
+                height: 7%;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 2em;
+                border-radius: 10px;
+                border: solid 2px black;
+                outline: none;
+            }
+
+            #startBtn:hover {
+                background-color: #d6d2d2;
+            }
+
+
+            #gameContainer {
+                display: none;
+                width: 100%;
+                height: 100%;
+            }
+
+
+            #pauseBtn {
+                display: none;
+                width: 75px;
+                height: 75px;
+                border-radius: 10px;
+                border: solid 2px black;
+                position: absolute;
+                margin-left: 2%;
+                margin-top: 2%;
+                background-color: white;
+                
+            }
+
+            #pauseBtn > img {
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+            }
+
+            #pausePage {
+                display: none;
+                position: absolute;
+                flex-direction: column;
+                justify-content: center;
+                width: 40%;
+                height: 30%;
+                top: 50%;
+                left: 50%;
+                margin-left: -20%;
+                margin-top: -15%;
+                border-radius: 5px;
+                border: solid 2px black;
+                background-color: white;
+            }
+
+            #pauseText {
+                margin-top: 2%;
+                font-size: 3em;
+                text-align: center;
+                font-family: 'Press Start 2P', cursive;
+            }
+
+            #returnLinks {
+                margin-top: 7%;
+                display: flex;
+                justify-content: space-evenly;
+            }
+
+            #returnLinks > div {
+                border: solid 2px black;
+                border-radius: 5px;
+                padding: 2%;
+                width: 7%;
+                height: 7%;
+            }
+
+            #resume > img, #returnToMenu > img {
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+            }
+
+            #lives {
+                box-sizing: border-box;
+                position: absolute;
+                display: none;
+                align-items: center;
+                width: 20%;
+                height: 10%;
+                border: solid 2px black;
+                border-radius: 5px;
+                left: 10%;
+                margin-top: 2%;
+                padding: 1%;
+                font-size: 1.2rem;
+                background-color:white;
+                font-family: 'Righteous', cursive;
+            }
+
+            #lives > span {
+                margin-right: 5%;
+            }
+
+            #lives > img {
+                width: 20%;
+                height: auto;
+                margin: 2%;
+            }
+
+            #score {
+                box-sizing: border-box;
+                position: absolute;
+                display: none;
+                align-items: center;
+                border: solid 2px black;
+                border-radius: 5px;
+                width: 10%;
+                height: 10%;
+                left: 33%;
+                margin-top: 2%;
+                padding-left: 1.5%;
+                font-size: 1.2rem;
+                background-color:white;
+                font-family: 'Righteous', cursive;
+            }
+
+            #wave {
+                box-sizing: border-box;
+                position: absolute;
+                display: none;
+                align-items: center;
+                border: solid 2px black;
+                border-radius: 5px;
+                width: 10%;
+                height: 10%;
+                left: 46%;
+                margin-top: 2%;
+                padding-left: 1.5%;
+                font-size: 1.2rem;
+                background-color:white;
+                font-family: 'Righteous', cursive;
+            }
+
+            #gameoverPage {
+                display: none;
+                position: absolute;
+                flex-direction: column;
+                justify-content: center;
+                width: 40%;
+                height: 40%;
+                top: 50%;
+                left: 50%;
+                margin-left: -20%;
+                margin-top: -15%;
+                border-radius: 5px;
+                border: solid 2px black;
+                background-color: white;
+            }
+
+            #gameoverText {
+                margin-top: 1%;
+                font-size: 2em;
+                text-align: center;
+                font-family: 'Press Start 2P', cursive;
+            }
+
+            #finalScore, #highscore {
+                font-size: 1.5em;
+                text-align: center;
+                margin-top: 2%;
+                font-family: 'Ubuntu', sans-serif;
+                
+            }
+
+            #gameoverReturnLinks {
+                margin-top: 5%;
+                display: flex;
+                justify-content: space-evenly;
+                margin-bottom: 3%;
+            }
+
+            #gameoverReturnLinks > div {
+                border: solid 2px black;
+                border-radius: 5px;
+                padding: 2%;
+                width: 40px;
+                height: 40px;
+                
+            }
+
+            #restart > img, #gameoverReturntoMenu > img {
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+            }
+
+
+
+        </style>
+    </head>
+    <body>
+
+        <div style = "display: none;">
+            <img id= "pewpewjet" src = "https://i.imgur.com/xh7eDB5.png" width="90" height="50">
+            <img id= "fastjet" src = "https://i.imgur.com/lwgh5Cq.png" width="90" height="50">
+            <img id= "regjet" src = "https://i.imgur.com/3NVrlJa.png" width="90" height="50">
+            <img id= "charjet" src = "https://i.imgur.com/whvMAnX.png" width="90" height="50">
+        </div>
+
+        <div id = "menuContainer">
+            <div id = "title">Plane Mania</div>
+            <button type = "button" id = "startBtn">Start</button>
+        </div>
+
+        <div id = "gameContainer">
+            <canvas id = "draw"></canvas>
+            <div id="pauseBtn"><img src="https://i.imgur.com/BI0s0pn.png" /></div>
+            <div id  = "lives">
+                <span>Lives:</span>
+                <img id = "life1" src = "https://i.imgur.com/jlHIK1n.png"/>
+                <img id = "life2" src = "https://i.imgur.com/jlHIK1n.png"/>
+                <img id = "life3" src = "https://i.imgur.com/jlHIK1n.png"/>
+            </div>
+            <div id = "score">Score: 0</div>
+            <div id = "wave">Wave: 1</div>
+            <div id="pausePage">
+                <div id="pauseText">Game Paused</div>
+                <div id = "returnLinks">
+                    <div id = "resume"><img src = "https://i.imgur.com/IeTAp5r.png"></div>
+                    <div id = "returnToMenu"><img src = "https://i.imgur.com/9AGQOie.png"></div>
+                </div>
+            </div>
+            <div id = "gameoverPage">
+                <div id = "gameoverText">Game Over</div>
+                <div id = "finalScore">Score: </div>
+                <div id = "highscore">Highscore: </div>
+                <div id = "gameoverReturnLinks">
+                    <div id = "restart"><img src = "https://i.imgur.com/oNxznu8.png"></div>
+                    <div id = "gameoverReturntoMenu"><img src = "https://i.imgur.com/9AGQOie.png"></div>
+                </div>
+
+            </div>
+        </div>
+        
+        <script type = "text/javascript" src = "PlaneMania.js"></script>
+    </body>
+</html>
