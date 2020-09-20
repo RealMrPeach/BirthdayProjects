@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Grandstander&display=swap" rel="stylesheet">
+
+        <link rel = "stylesheet" href = "style.css">
+        <title>Flappy Goose</title>
+    </head>
+    <body>
+
+        <div style = "display:none;">
+            <img id = "player" src = "https://i.imgur.com/inP0BYu.png"/>
+            <img id = "pipe_up" src = "https://i.imgur.com/LjHGE6d.png"/>
+            <img id = "pipe_down" src = "https://i.imgur.com/Ie0jV8W.png"/>
+        </div>
+
+        <div id = "gameContainer">
+            <canvas id = "draw"></canvas>
+            <div id="pauseButton"><img src="https://i.imgur.com/BI0s0pn.png" /></div>
+            <div id="pausePage">
+                <div id="pauseText">Game Paused</div>
+                <div id = "returnLinks">
+                    <div id = "resume"><img src = "https://i.imgur.com/IeTAp5r.png"></div>
+                    <div id = "return"><img src = "https://i.imgur.com/9AGQOie.png"></div>
+                </div>
+            </div>
+            <div id = "score">Score: </div>
+        </div>
+        <div id = "endPage">
+            <div id = "endText">Game Over</div>
+            <div id = "endScore">Score: </div>
+            <div id = "highscore">Highscore: </div>
+            <div id = "endLinks">
+                <div id = "restart"><img src = "https://i.imgur.com/oNxznu8.png"></div>
+                <div id = "endReturn"><img src = "https://i.imgur.com/9AGQOie.png"></div>
+            </div>
+        </div>
+        <div id = "container">
+            <div id = "title">Flappy Goose</div>
+            <button type = "button" id = "startBtn">Start</button>
+        </div>
+
+        
+        <script type = "text/javascript" src = "untitled.js"></script>
+    </body>
+</html>
