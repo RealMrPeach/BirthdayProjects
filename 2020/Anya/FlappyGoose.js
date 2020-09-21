@@ -51,12 +51,12 @@ class obstacles {
     }
 
     move(){
-        this.x1 -= 3.5
-        this.x2 -= 3.5
+        this.x1 -= 10
+        this.x2 -= 10    
     }
 }
 
-const GRAVITY = 0.1
+const GRAVITY = 0.9
 
 const SPACEBAR = 32
 
@@ -67,7 +67,8 @@ let gamePaused = false
 
 let startPress = false
 
-let frames = 1
+let frameOffset = 0
+let frames = 0
 let score = 0
 
 if(localStorage.getItem("highscore") == null){
@@ -138,14 +139,15 @@ function reset(){
     gamePaused = false
     startPress = false
 
-    frames = 1
+    frames = 0
     score = 0
 
     keys = []
     obstaclesArray = []
 
     player.vely = 0
-
+    frameOffset = 0
+    offset = 0
     scoreDisplay.innerHTML = "Score: " + score
 
     player.x = 0.15 * canvas.width
@@ -169,12 +171,12 @@ function init(){
 
 function jump(){
 
-    if(SPACEBAR in keys && player.vely < 5){
-        player.vely += 0.35
+    if(SPACEBAR in keys){
+        player.vely += 3
         startPress = true
     }    
 
-    if(player.vely > -5 && startPress == true){
+    if(startPress == true && player.vely > -200){
         player.vely -= GRAVITY
     }
 
@@ -189,7 +191,8 @@ function jump(){
 }
 
 function newObstacle(){
-    if(frames % 210 == 0){
+    if(frames % (120 - frameOffset) == 0 && frames != 0){
+        console.log(frames)
         let randomHeight = canvas.height / 4 + canvas.height * (Math.random() / 3)
         let obstacle = new obstacles(canvas.width + 20, 0, randomHeight, canvas.width + 20, randomHeight + 225, canvas.height - (randomHeight + 225), false)
         
@@ -239,12 +242,18 @@ function nextFrame(time){
     for(let i = obstaclesArray.length - 1; i > -1; i--){
         if(offScreen(obstaclesArray[i])){
             obstaclesArray.splice(i, 1)
+            break
         }
         if(doesCollide(player, obstaclesArray[i])){
             gameover = true
         }
         if(scoreCheck(player, obstaclesArray[i])){
             score++
+            
+            if(frameOffset < 60 && score != 0 && score % 5 == 0){
+                frameOffset = score * 6
+            }
+
             scoreDisplay.innerHTML = "Score: " + score
             obstaclesArray[i].passed = true
         }
@@ -257,7 +266,7 @@ function nextFrame(time){
     ctx.drawImage(background, canvas.width - offset, 0, canvas.width,canvas.height)
 
     if(offset < canvas.width) {
-        offset += 0.75
+        offset += 2
     } else {
         offset = 0
     }
@@ -271,7 +280,9 @@ function nextFrame(time){
     ctx.drawImage(goose, player.x, player.y, player.width, player.height)
 
     if(gameover == false && gamePaused == false){
-        requestAnimationFrame(nextFrame)
+        setTimeout(() => {
+            requestAnimationFrame(nextFrame);
+          }, 1000 / 60)
     }else if(gameover == true){
         endPage.style.display = "flex"
         finalScore.innerHTML = "Score: " + score
