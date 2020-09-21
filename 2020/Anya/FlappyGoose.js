@@ -172,11 +172,11 @@ function init(){
 function jump(){
 
     if(SPACEBAR in keys){
-        player.vely += 3
+        player.vely += 2
         startPress = true
     }    
 
-    if(startPress == true && player.vely > -200){
+    if(startPress == true && player.vely > -10){
         player.vely -= GRAVITY
     }
 
